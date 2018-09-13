@@ -58,3 +58,17 @@ dkms.conf
 bin/*
 !bin/README.md
 
+eco
+glob
+philo
+
+shm/*
+!shm/*.c
+
+mq/*
+!mq/*.c
+
+sem/*
+!sem/*.c
+
+

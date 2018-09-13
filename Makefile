@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Werror -g -lrt
+CFLAGS=-Wall -Werror -g -lrt -lpthread
 
 PROG=glob philo eco
 SHM_DIR=shm
@@ -38,5 +38,5 @@ pdf: README.md
 
 .PHONY: clean
 clean:
-	file $(BINARIES)
+	rm -f $(BINARIES)
 

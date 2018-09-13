@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
      */
     fd = shm_open();
 
+    /* Verifica que no haya errores */
     if (fd == -1) {
         perror("shm_open()");
         exit(EXIT_FAILURE);
