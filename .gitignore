@@ -58,6 +58,7 @@ dkms.conf
 bin/*
 !bin/README.md
 
+ph
 eco
 glob
 philo

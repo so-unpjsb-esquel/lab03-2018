@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -Werror -g -lrt -lpthread
 
-PROG=glob philo eco
+PROG=glob philo eco ph
 SHM_DIR=shm
 SHM_EJ=shm_create shm_read shm_unlink shm_write
 MQ_DIR=mq
