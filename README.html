@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.line-block{white-space: pre-line;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="laboratorio-3---comunicación-entre-procesos-y-sincronización">Laboratorio 3 - Comunicación entre procesos y sincronización</h1>
+<h2 id="ejercicio-1">Ejercicio 1</h2>
+<p>En este ejercicio usaremos el API de cola de mensajes de POSIX, que permite intercambiar datos entre procesos mediante el paso de mensajes. El manual <a href="http://man7.org/linux/man-pages/man7/mq_overview.7.html"><code>mq_overview</code></a> presenta una introducción general al API de colas de mensajes.</p>
+<p>Las funciones del API que vamos a usar en este ejercicio son:</p>
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_open.3.html"><code>mq_open()</code></a>: crea una nueva cola de mensajes, o abre una ya existente.</li>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_send.3.html"><code>mq_send()</code></a>: envía un mensaje a la cola de mensajes, con una prioridad dada.</li>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_send.3.html"><code>mq_receive()</code></a>: recibe un mensaje.</li>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_close.3.html"><code>mq_close()</code></a>: cierra el descriptor de una cola de mensajes (se trata como si fuera un descriptor de archivo).</li>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_unlink.3.html"><code>mq_unlink()</code></a>: elimina una cola de mensajes.</li>
+<li><a href="http://man7.org/linux/man-pages/man3/mq_getattr.3.html"><code>mq_getattr()</code></a>: recupera los atributos de la cola de mensajes especificada.</li>
+</ul>
+<p>Completar los siguientes programas en el directorio <code>mq</code>, que permiten enviar y recibir mensajes por medio de una cola de mensajes:</p>
+<ul>
+<li><code>mq_open.c</code>: crea una cola de mensajes.</li>
+<li><code>mq_send.c</code>: envia un mensaje a travez de la cola de mensajes especificada.</li>
+<li><code>mq_receive.c</code>: lee el mensaje de mayor prioridad en la cola de mensajes indicada.</li>
+<li><code>mq_attr.c</code>: muestra información acerca de la cola de mensajes especificada.</li>
+<li><code>mq_unlink.c</code>: elimina la cola de mensajes indicada.</li>
+</ul>
+<p>Una vez completados, deben poder crear colas de mensajes y envíar y recibir mensajes por medio de las mismas.</p>
+<p>Responder también las siguientes preguntas:</p>
+<ol>
+<li>Ejecutar el programa <code>mq_receive</code> cuando la cola de mensajes está vacía, ¿Qué sucede? ¿Por qué?</li>
+<li>Enviar varios mensajes, algunos con distinta prioridad y otros con la misma prioridad, usando el programa <code>mq_send</code>. Luego, recuperarlos con <code>mq_receive</code>. ¿En qué orden son recuperados de la cola de mensajes? ¿Cómo se ordenan los mensajes con la misma prioridad?</li>
+</ol>
+<h2 id="ejercicio-2">Ejercicio 2</h2>
+<p>En este ejercicio usaremos el API de POSIX para crear y utilizar segmentos de memoria compartida. Mediante estos segmentos, múltiples procesos pueden intercambiar datos de una manera mucho más rapida que mediante el intercambio de mensajes. El manual <a href="http://man7.org/linux/man-pages/man7/shm_overview.7.html"><code>shm_overview</code></a> tiene una introducción al API de memoria compartida de POSIX.</p>
+<p>Las principales funciones que vamos a usar en el ejercicio son:</p>
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man3/shm_open.3.html"><code>shm_open()</code></a>: crea un nuevo objeto de memoria compartida, o abre uno ya existente.</li>
+<li><a href="http://man7.org/linux/man-pages/man2/ftruncate.2.html"><code>ftruncate()</code></a>: cambia (&quot;trunca&quot;) el tamaño del segmento de memoria compartida (es la misma función que cambia el tamaño de un archivo).</li>
+<li><a href="http://man7.org/linux/man-pages/man2/mmap.2.html"><code>mmap()</code></a>: realiza el mapeo del segmento de memoria compartida indicado dentro del espacio de direcciones del proceso.</li>
+<li><a href="http://man7.org/linux/man-pages/man3/shm_unlink.3.html"><code>shm_unlink()</code></a>: elimina el segmento de memoria compartida indicado.</li>
+<li><a href="http://man7.org/linux/man-pages/man2/close.2.html"><code>close()</code></a>: cierra el descriptor de un segmento de memoria compartida.</li>
+</ul>
+<p>Completar los siguientes programas en el directorio <code>shm</code> haciendo uso del API de memoria compartida de POSIX, que utilizan memoria compartida para escribir y leer una serie de datos:</p>
+<ul>
+<li><code>shm_create.c</code>: crea un segmento de memoria compartida.</li>
+<li><code>shm_write.c</code>: escribe una serie de datos en el segmento de memoria compartida indicado.</li>
+<li><code>shm_read.c</code>: lee los datos que se encuentren el segmento de memoria compartida especificado.</li>
+<li><code>shm_unlink.c</code>: elimina el segmento de memoria compartida.</li>
+</ul>
+<p>Responder también la siguiente pregunta:</p>
+<ol>
+<li>¿Cómo sabe <code>shm_read</code> cuanto datos puede leer del segmento de memoria compartida?</li>
+</ol>
+<h2 id="ejercicio-3">Ejercicio 3</h2>
+<p>El programa <code>eco.c</code> crea dos procesos hijos que se comunican por medio de una tubería. Uno de los procesos lee una línea desde la <em>entrada estándar</em>, y la envía por la tubería. El segundo proceso lee esta línea de la tubería y la imprime por la <em>salida estándar</em>. El programa termina cuando se ingresa una linea en blanco (osea, un <code>\n</code>).</p>
+<p>Modificar el programa de manera que ambos procesos se comuniquen mediante paso de mensajes, en lugar de una tubería.</p>
+<h2 id="ejercicio-4">Ejercicio 4</h2>
+<p>El programa <code>glob.c</code>, crea dos hilos que repetidamente incrementan la variable global <code>glob</code>, copiando primero su valor en una variable automática (local), incrementando el valor de dicha variable, y copiando luego el nuevo valor en <code>glob</code>. Cada hilo incrementa <code>glob</code> el número de veces indicado en la línea de comandos.</p>
+<ul>
+<li>Compilar y ejecutar el programa, probando valores hasta que se encuentre una condiciones de carrera.</li>
+<li>¿Por qué ocurre esta situación de carrera? ¿Cómo se podría evitar?</li>
+<li>Evitar la condición de carrera mediante el uso de mutexes (<code>pthread_mutex_t</code>).</li>
+<li>Evitar la condición de carrera mediante un semáforo (<code>sem_t</code>) en lugar del mutex.</li>
+</ul>
+<h2 id="ejercicio-5">Ejercicio 5</h2>
+<p>Completar los programas <code>sem_open.c</code>, <code>sem_wait.c</code>, <code>sem_post.c</code> y <code>sem_unlink.c</code> en el directorio <code>sem</code>.</p>
+<p>Tendrían que poder ejecutar esta serie de comandos, en donde se crea un semáforo con un valor inicial de cero, y se realiza una operación <em>down</em>, luego un <em>up</em>, y finalmente se lo elimina.</p>
+<pre><code>$ sem_open semaforo 0
+$ sem_wait semaforo &amp;
+$ sem_post semaforo
+$ sem_unlink semaforo
+</code></pre>
+<h2 id="ejercicio-6">Ejercicio 6</h2>
+<p>El programa <code>philo.c</code> implementa un ejemplo del problema de la <em>cena de los filósofos</em>. Durante la ejecución del programa puede ocurrir una condición de carrera.</p>
+<ol>
+<li>Modificar el programa para evitar esta condición, mediante el uso de semáforos y mutexes.</li>
+<li>El programa incorpora una solución para evitar el <em>bloqueo mutuo</em> o <em>abrazo mortal</em>. Explicarla.</li>
+</ol>
+<h2 id="ejercicio-7-opcional">Ejercicio 7 (opcional)</h2>
+<p>Modificado de: <a href="https://pdos.csail.mit.edu/6.828/2017/homework/lock.html" class="uri">https://pdos.csail.mit.edu/6.828/2017/homework/lock.html</a></p>
+<p>En este ejercicio exploraremos la programación paralela, utilizando hilos, exclusión mutua y una tabla <em>hash</em>. Para lograr un paralelismo real, se debe ejecutar este programa en una computadora con dos o más núcleos.</p>
+<p>En primer lugar, compilar y ejecutar el programa <code>ph.c</code>:</p>
+<pre><code>$ make ph
+$ ./ph 2
+</code></pre>
+<p>El número 2 especifica el número de hilos que realizaran operaciones <em>put</em> y <em>get</em> sobre una tabla <em>hash</em>. Cuando termine de ejecutar, el programa debe generar una salida similar a la siguiente:</p>
+<pre><code>0: put time = 2.871728
+1: put time = 2.957073
+1: get time = 12.731078
+1: 1 keys missing
+0: get time = 12.731874
+0: 1 keys missing
+completion time = 15.689165
+</code></pre>
+<p>Cada hilo ejecuta dos fases. En la primera, almacena claves en la tabla, y en la segunda fase trata de recuperar dichas claves de la tabla. La salida del programa indica cuanto tiempo duro cada fase para cada hilo. La última linea (&quot;<em>completion time</em>&quot;) indica el tiempo total de ejecución del programa. En la salida de ejemplo anterior, el programa ejecutó durante aproximadamente 16 segundos.</p>
+<p>Por ejemplo, si ejecutaramos nuevamente el programa, pero con un único hilo:</p>
+<pre><code>$ ./a.out 1
+0: put time = 5.350298
+0: get time = 11.690395
+0: 0 keys missing
+completion time = 17.040894
+</code></pre>
+<p>Vemos que el tiempo total de ejecución es levemente mayor que para el caso de ejecución con dos hilos (~17s contra ~15.6s). Sin embargo, notar que al utilizar dos hilos se realizó el doble de trabajo en la fase <em>get</em>, lo que representa un mejora de casi 2x (¡nada mal!). En cambio, para la fase <em>put</em> se logró una mejora mucho más pequeña, ya que entre ambos hilos guardaron el mismo número de claves en algo menos de la mitad de tiempo (~2.9s contra ~5.3s).</p>
+<p>Independientemente de si al ejecutar el programa en sus computadoras logran un incremento de velocidad, o la magnitud del mismo, notarán que el programa no funciona correctamente. Al ejecutar el mismo utilizando dos hilos, algunas claves posiblemente no puedan ser recuperadas. En el ejemplo anterior, una de las claves se perdió (&quot;<em>1 keys missing</em>&quot;).</p>
+<p>Esto empeora cuando incrementamos el número de hilos:</p>
+<pre><code>2: put time = 1.516581
+1: put time = 1.529754
+0: put time = 1.816878
+3: put time = 2.113230
+2: get time = 15.635937
+2: 21 keys missing
+3: get time = 15.694796
+3: 21 keys missing
+1: get time = 15.714341
+1: 21 keys missing
+0: get time = 15.746386
+0: 21 keys missing
+completion time = 17.866878
+</code></pre>
+<p>Dos consideraciones:</p>
+<ul>
+<li>El tiempo total de ejecución es aproxidamente el mismo que para el caso de dos hilos. Sin embargo, se realizó casi el doble de operaciones <em>get</em>, lo que indica que se esta obteniendo una buena paralelización.</li>
+<li>Más claves se han perdido. Es posible, sin embargo, que en una ejecución particular se pierdan más o menos claves, o incluso que no se pierda ninguna. ¿Por qué? Identificar la secuencia de eventos que pueden llevar a que se pierda una clave en el caso de dos o más hilos.</li>
+</ul>
+<p>Para evitar la pérdida de claves, es necesario emplear exclusión mutua, durante las operaciones <em>put</em> y <em>get</em>. Las funciones a utilizar son:</p>
+<pre><code>pthread_mutex_t lock;     // declare a lock
+pthread_mutex_init(&amp;lock, NULL);   // initialize the lock
+pthread_mutex_lock(&amp;lock);  // acquire lock
+pthread_mutex_unlock(&amp;lock);  // release lock
+</code></pre>
+<p>Se pide:</p>
+<ol>
+<li>Modificar el código del programa <code>ph.c</code> de manera que no se pierdan claves al utilizar dos o más hilos. ¿Es aún la versión de dos hilos más rápida que la versión con un único hilo? De no ser así, ¿por qué?</li>
+<li>Modificar el código para que las operaciones <em>get</em> puedan ejecutarse en paralelo. (Tip: ¿Es necesario utilizar exclusión mútua al realizar una operación <em>get</em>?)</li>
+<li>Modificar el código para que algunas de las operaciones <em>put</em> puedan ejecutar en paralelo.</li>
+</ol>
+<hr />
+<p>¡Fin del Laboratorio 3!</p>
+</body>
+</html>
